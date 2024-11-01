@@ -10,7 +10,7 @@ const Header = () => {
         <div className="flex items-center gap-14">
           <Link
             className="text-xl border-2 border-transparent hover:border-b-black"
-            to="/"
+            to="/writingassistant"
           >
             Writing assistant
           </Link>
