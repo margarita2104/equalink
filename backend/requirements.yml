@@ -1,0 +1,16 @@
+name: equalink
+dependencies: 
+  - python
+  - pip
+  - pip: 
+    - django
+    - djangorestframework
+    - djangorestframework-simplejwt
+    - groq
+    - python-dotenv
+    - cerebras-cloud-sdk
+    - openai
+    - reportlab
+    - beautifulsoup4
+    - django-cors-headers
+
