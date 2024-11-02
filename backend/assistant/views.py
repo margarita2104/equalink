@@ -1,7 +1,7 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 
-from .app import analyze_article_for_bias  # Import your analysis function
+from .app import get_sambanova_response
 from .models import BiasAnalysis
 from .serializers import BiasAnalysisSerializer
 
@@ -16,13 +16,13 @@ class BiasAnalysisCreateListView(generics.ListCreateAPIView):
         article_text = serializer.validated_data.get('article_text')
 
         if article_text:
-            # Call your analysis function and get the feedback
-            combined_feedback = analyze_article_for_bias(article_text)
+            # Call the function that interacts with SambaNova and get the feedback
+            sambanova_feedback = get_sambanova_response(article_text)
 
             # Save the analysis result with feedback
             serializer.save(
                 article_text=article_text,
-                combined_feedback=combined_feedback
+                combined_feedback=sambanova_feedback
             )
         else:
             return Response({"error": "Article text is required."}, status=status.HTTP_400_BAD_REQUEST)
@@ -30,7 +30,6 @@ class BiasAnalysisCreateListView(generics.ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def get_queryset(self):
-        # Optionally filter by user if needed, or return all analyses
         return BiasAnalysis.objects.all()
 
     def get(self, request, *args, **kwargs):
@@ -44,7 +43,6 @@ class BiasAnalysisDetailView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'pk'
 
     def get_queryset(self):
-        # Optionally filter by user if needed, or return all analyses
         return BiasAnalysis.objects.all()
 
     def get(self, request, *args, **kwargs):
