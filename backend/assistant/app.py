@@ -3,6 +3,7 @@ import time
 from dotenv import load_dotenv
 import openai
 
+
 # Load environment variables
 load_dotenv()
 
@@ -32,19 +33,37 @@ def create_analysis_prompt(article_text):
 
 def get_sambanova_response(article_text):
     start_time = time.time()
-    messages = [
-        {"role": "system",
-         "content": "You are an assistant that specializes in analyzing text for gender bias and providing actionable feedback."},
-        {"role": "user", "content": f"Please analyze the following article and suggest improvements: '{article_text}'"}
-    ]
+    prompt = create_analysis_prompt(article_text)
 
     response = sambanova_client.chat.completions.create(
         model='Meta-Llama-3.1-8B-Instruct',
-        messages=messages,
+        messages=[{"role": "user", "content": prompt}],
         temperature=0.1,
         top_p=0.1
     )
-    end_time = time.time()
 
+    end_time = time.time()
     response_text = response.choices[0].message.content.strip()
-    return response_text
+
+    suggestions = []
+    lines = response_text.splitlines()
+
+    current_suggestion = {}
+
+    for line in lines:
+        if line.startswith("Original sentence:"):
+            if current_suggestion:
+                suggestions.append(current_suggestion)
+            current_suggestion = {'original_sentence': line.split(": ", 1)[1].strip()}
+        elif line.startswith("Suggested correction:"):
+            current_suggestion['suggested_correction'] = line.split(": ", 1)[1].strip()
+        elif line.startswith("Explanation:"):
+            current_suggestion['explanation'] = line.split(": ", 1)[1].strip()
+
+    if current_suggestion:
+        suggestions.append(current_suggestion)
+
+    return {
+        'suggestions': suggestions,
+        'no_suggestions_message': "No suggestions necessary." in response_text
+    }

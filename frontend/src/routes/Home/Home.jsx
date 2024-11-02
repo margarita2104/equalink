@@ -4,13 +4,13 @@ const Home = () => {
       <div className="flex flex-col items-between">
         <div className="flex flex-col items-center my-28">
           <p className="w-1/2 text-center mb-5">
-            EqualInk is&nbsp;your ally in&nbsp;creating inclusive, unbiased
+            Equal=Ink is&nbsp;your ally in&nbsp;creating inclusive, unbiased
             journalism. Our intelligent tool analyzes language for potential
             gender bias and offers actionable feedback, empowering you
             to&nbsp;produce content that speaks to&nbsp;everyone.
           </p>
           <h2 className="font-bold w-1/2 text-center">
-            Embrace fair reporting with EqualInk&mdash;where every word counts.
+            Embrace fair reporting with Equal=Ink&mdash;where every word counts.
           </h2>
         </div>
         <div>

@@ -1,3 +1,5 @@
+import json
+
 from rest_framework import generics, status
 from rest_framework.response import Response
 
@@ -22,21 +24,12 @@ class BiasAnalysisCreateListView(generics.ListCreateAPIView):
             # Save the analysis result with feedback
             serializer.save(
                 article_text=article_text,
-                combined_feedback=sambanova_feedback
+                combined_feedback=json.dumps(sambanova_feedback)  # Store feedback as a JSON string
             )
         else:
             return Response({"error": "Article text is required."}, status=status.HTTP_400_BAD_REQUEST)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    def get_queryset(self):
-        return BiasAnalysis.objects.all()
-
-    def get(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
 
 class BiasAnalysisDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BiasAnalysisSerializer

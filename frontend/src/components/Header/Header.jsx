@@ -5,7 +5,7 @@ const Header = () => {
     <header className="py-5 px-10 border-b-2 border-b-alto">
       <nav className="font-bold flex items-center justify-between">
         <Link to="/">
-          <h1 className="text-3xl">EqualInk</h1>
+          <h1 className="text-3xl">Equal=Ink</h1>
         </Link>
         <div className="flex items-center gap-14">
           <Link
