@@ -16,13 +16,13 @@ const Header = () => {
           </Link>
           <Link
             className="text-xl border-2 border-transparent hover:border-b-black"
-            to="/"
+            to="/education"
           >
             Education
           </Link>
           <Link
             className="text-xl border-2 border-transparent hover:border-b-black"
-            to="/"
+            to="/trends"
           >
             Trends
           </Link>
